@@ -62,6 +62,19 @@ jobs:
         REPO_BRANCH: master
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
 
+    - name: 自定义插件和主题。
+      run: |
+        cd package
+        mkdir openwrt-packages
+        cd openwrt-packages
+        git clone https://github.com/openwrt-develop/luci-theme-atmaterial.git
+        git clone https://github.com/Ameykyl/luci-app-koolproxyr.git
+        git clone https://github.com/rosywrt/luci-theme-rosy.git
+        git clone https://github.com/AdguardTeam/adguardhome.git
+        git clone https://github.com/happyzhang1995/luci-app-adguardhome.git
+        git clone https://github.com/kuoruan/openwrt-frp.git
+        git clone https://github.com/Aslin-Ameng/luci-theme-light.git
+
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
