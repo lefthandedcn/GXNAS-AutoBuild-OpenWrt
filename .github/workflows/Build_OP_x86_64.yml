@@ -62,7 +62,8 @@ jobs:
         REPO_BRANCH: master
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
 
-    - name: 自定义插件和主题。
+    - name: DIY packages
+      working-directory: ./openwrt
       run: |
         cd package
         mkdir openwrt-packages
