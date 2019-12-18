@@ -72,7 +72,7 @@ jobs:
         git clone https://github.com/rosywrt/luci-theme-rosy.git
         git clone https://github.com/AdguardTeam/adguardhome.git
         git clone https://github.com/happyzhang1995/luci-app-adguardhome.git
-        git clone https://github.com/kuoruan/openwrt-frp.git
+        git clone https://github.com/kuoruan/openwrt-frp.git package/frp
         git clone https://github.com/Aslin-Ameng/luci-theme-light.git
 
     - name: Update & Install feeds
