@@ -10,9 +10,9 @@ name: Build_x86_64
 on: 
   release:
     types: [published]
-  push:
-    branches: 
-      - master
+  #push:
+    #branches: 
+      #- master
 
   #schedule:
   #  - cron: 0 8 * * 5
@@ -68,13 +68,14 @@ jobs:
         cd package
         mkdir openwrt-packages
         cd openwrt-packages
-        git clone https://github.com/openwrt-develop/luci-theme-atmaterial.git
-        git clone https://github.com/Ameykyl/luci-app-koolproxyr.git
-        git clone https://github.com/rosywrt/luci-theme-rosy.git
-        git clone https://github.com/AdguardTeam/adguardhome.git
-        git clone https://github.com/happyzhang1995/luci-app-adguardhome.git
-        git clone https://github.com/kuoruan/openwrt-frp.git package/frp
+        git clone https://github.com/openwrt-develop/luci-theme-atmaterial
+        git clone https://github.com/Ameykyl/luci-app-koolproxyR
+        git clone https://github.com/rosywrt/luci-theme-rosy
+        git clone https://github.com/AdguardTeam/AdGuardHome
+        git clone https://github.com/happyzhang1995/luci-app-adguardhome
+        git clone https://github.com/kuoruan/openwrt-frp
         git clone https://github.com/Aslin-Ameng/luci-theme-light.git
+        git clone https://github.com/destan19/OpenAppFilter
 
     - name: Update & Install feeds
       working-directory: ./openwrt
