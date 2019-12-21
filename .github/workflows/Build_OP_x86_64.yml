@@ -55,7 +55,6 @@ jobs:
         sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex node-uglify gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx-ucl libelf-dev autoconf automake libtool autopoint device-tree-compiler libuv-dev
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
-
     - name: Clone source code
       env: 
         REPO_URL: https://github.com/coolsnowwolf/lede
@@ -68,14 +67,14 @@ jobs:
         cd package
         mkdir openwrt-packages
         cd openwrt-packages
-        git clone https://github.com/openwrt-develop/luci-theme-atmaterial.git
-        git clone https://github.com/Ameykyl/luci-app-koolproxyr.git
-        git clone https://github.com/rosywrt/luci-theme-rosy.git
-        git clone https://github.com/AdguardTeam/adguardhome.git
-        git clone https://github.com/happyzhang1995/luci-app-adguardhome.git
-        git clone https://github.com/kuoruan/openwrt-frp.git package/frp
-        git clone https://github.com/Aslin-Ameng/luci-theme-light.git
-        git clone https://github.com/destan19/OpenAppFilter.git
+        git clone https://github.com/openwrt-develop/luci-theme-atmaterial
+        git clone https://github.com/Ameykyl/luci-app-koolproxyr
+        git clone https://github.com/rosywrt/luci-theme-rosy
+        git clone https://github.com/AdguardTeam/adguardhome
+        git clone https://github.com/happyzhang1995/luci-app-adguardhome
+        git clone https://github.com/kuoruan/openwrt-frp
+        git clone https://github.com/Aslin-Ameng/luci-theme-light
+        git clone https://github.com/destan19/OpenAppFilter
 
     - name: Update & Install feeds
       working-directory: ./openwrt
@@ -83,7 +82,6 @@ jobs:
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         ./scripts/feeds install -a
-
     - name: Configuration Customization - Build_x86_64
       env:
         CONFIG_FILE: 'x86_64.config'
@@ -98,13 +96,11 @@ jobs:
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-
     - name: Build firmware
       working-directory: ./openwrt
       run: |
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
-
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
