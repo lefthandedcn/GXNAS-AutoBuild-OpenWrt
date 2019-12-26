@@ -85,7 +85,7 @@ jobs:
         ./scripts/feeds install -a
     - name: Configuration Customization - Build_x86_64_mogai
       env:
-        CONFIG_FILE: 'x86_64.config'
+        CONFIG_FILE: 'x86_64_mogai.config'
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x ./customize.sh && ./customize.sh
