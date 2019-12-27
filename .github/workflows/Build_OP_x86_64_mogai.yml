@@ -105,5 +105,5 @@ jobs:
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
-        name: OpenWrt
+        name: OpenWrt_x86_64_mogai
         path: openwrt/bin
