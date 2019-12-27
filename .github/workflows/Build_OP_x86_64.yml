@@ -69,14 +69,16 @@ jobs:
         cd package
         mkdir openwrt-packages
         cd openwrt-packages
-        git clone https://github.com/openwrt-develop/luci-theme-atmaterial
         git clone https://github.com/Ameykyl/luci-app-koolproxyr
-        git clone https://github.com/rosywrt/luci-theme-rosy
-        git clone https://github.com/AdguardTeam/adguardhome
+        git clone https://github.com/destan19/OpenAppFilter
+        git clone https://github.com/tty228/luci-app-serverchan
+        git clone https://github.com/project-openwrt/openwrt-iptvhelper
+        git clone https://github.com/happyzhang1995/openwrt-adguardhome
         git clone https://github.com/happyzhang1995/luci-app-adguardhome
         git clone https://github.com/kuoruan/openwrt-frp
+        git clone https://github.com/rosywrt/luci-theme-rosy
+        git clone https://github.com/openwrt-develop/luci-theme-atmaterial
         git clone https://github.com/Aslin-Ameng/luci-theme-light
-        git clone https://github.com/destan19/OpenAppFilter
 
     - name: Update & Install feeds
       working-directory: ./openwrt
