@@ -5,7 +5,7 @@
 # Youtube Channel: https://goo.gl/fvkdwm 
 #=================================================
 
-name: Build_x86
+name: Build_x86_64_soot
 
 on: 
   release:
@@ -70,9 +70,9 @@ jobs:
         ./scripts/feeds install -a
         ./scripts/feeds install -a
 
-    - name: Configuration Customization - Build_x86
+    - name: Configuration Customization - Build_x86_64_soot
       env:
-        CONFIG_FILE: 'x86.config'
+        CONFIG_FILE: 'x86_64_soot.config'
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x ./customize.sh && ./customize.sh
@@ -94,5 +94,5 @@ jobs:
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
-        name: OpenWrt
+        name: OpenWrt_x64_soot
         path: openwrt/bin
