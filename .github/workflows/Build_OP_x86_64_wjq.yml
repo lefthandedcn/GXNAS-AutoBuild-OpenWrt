@@ -7,9 +7,15 @@
 
 name: Build_x86_64_wjq
 
-on: 
-  release:
-    types: [published]
+on:
+  push:
+    branches: 
+      - master
+  schedule:
+    - cron: 0 20 * * *
+ 
+  #release:
+  #  types: [published]
 
   # release:
   #   types: [published]
