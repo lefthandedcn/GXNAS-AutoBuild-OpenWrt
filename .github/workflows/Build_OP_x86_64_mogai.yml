@@ -7,10 +7,10 @@
 
 name: Build_OP_x86_64_mogai
 
-on:
-  #push:
-    #branches: 
-      #- master
+on: 
+  release:
+    types: [published]
+
   # schedule:
   #   - cron: 0 20 * * *
   # release:
