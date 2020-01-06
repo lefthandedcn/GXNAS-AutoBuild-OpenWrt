@@ -8,11 +8,11 @@
 name: Build_OP_x86_64_Lienol
 
 on:
-  #push:
-    #branches: 
-      #- master
-  #schedule:
-    #- cron: 0 20 * * *
+  push:
+    branches: 
+      - master
+  schedule:
+    - cron: 0 20 * * *
  
   #release:
   #  types: [published]
@@ -61,6 +61,7 @@ jobs:
         sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex node-uglify gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx-ucl libelf-dev autoconf automake libtool autopoint device-tree-compiler libuv-dev
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
+        
     - name: Clone source code
       env: 
         REPO_URL: https://github.com/coolsnowwolf/lede
@@ -71,25 +72,21 @@ jobs:
       working-directory: ./openwrt
       run: |
         cd package
-        mkdir openwrt-packages
-        cd openwrt-packages
-        git clone https://github.com/Ameykyl/luci-app-koolproxyr
+        mkdir Extra-plugin
+        cd Extra-plugin
+        git clone https://github.com/Leo-Jo/luci-app-koolproxyR
         git clone https://github.com/destan19/OpenAppFilter
         git clone https://github.com/tty228/luci-app-serverchan
-        #git clone https://github.com/happyzhang1995/openwrt-adguardhome
-        #git clone https://github.com/happyzhang1995/luci-app-adguardhome
         git clone https://github.com/rufengsuixing/luci-app-adguardhome
-        git clone https://github.com/kuoruan/openwrt-frp
         git clone https://github.com/rosywrt/luci-theme-rosy
-        git clone https://github.com/openwrt-develop/luci-theme-atmaterial
-        git clone https://github.com/Aslin-Ameng/luci-theme-light
-        git clone https://github.com/jerrykuku/luci-theme-argon.git
+        
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         ./scripts/feeds install -a
+        
     - name: Configuration Customization - Build_x86_64_Lienol
       env:
         CONFIG_FILE: 'x86_64_Lienol.config'
