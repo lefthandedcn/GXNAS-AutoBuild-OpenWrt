@@ -64,6 +64,7 @@ jobs:
         mkdir openwrt-packages
         cd openwrt-packages
         git clone https://github.com/Ameykyl/luci-app-koolproxyr
+        git clone https://github.com/jerrykuku/luci-theme-argon
         git clone https://github.com/rosywrt/luci-theme-rosy
 
     - name: Update & Install feeds
