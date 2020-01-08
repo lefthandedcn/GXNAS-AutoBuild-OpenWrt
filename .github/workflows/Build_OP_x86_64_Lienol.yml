@@ -48,9 +48,6 @@ jobs:
         cd Extra-plugin
         git clone https://github.com/Leo-Jo/luci-app-koolproxyR
         git clone https://github.com/destan19/OpenAppFilter
-        git clone https://github.com/tty228/luci-app-serverchan
-        git clone https://github.com/rufengsuixing/luci-app-adguardhome
-        git clone https://github.com/rosywrt/luci-theme-rosy
         
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
