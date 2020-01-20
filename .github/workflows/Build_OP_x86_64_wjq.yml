@@ -66,7 +66,7 @@ jobs:
         cd package
         mkdir openwrt-packages
         cd openwrt-packages
-        git clone https://github.com/Ameykyl/luci-app-koolproxyr
+        # git clone https://github.com/Ameykyl/luci-app-koolproxyr
         git clone https://github.com/destan19/OpenAppFilter
         git clone https://github.com/tty228/luci-app-serverchan
         # git clone https://github.com/happyzhang1995/openwrt-adguardhome
