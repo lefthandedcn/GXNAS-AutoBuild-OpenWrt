@@ -49,7 +49,7 @@ jobs:
       run: |
           cd openwrt
           rm -f .config
-          cp ../x86_64_Lienol-openwrt .config
+          cp ../x86_64_Lienol-openwrt.config .config
           
     - name: Make download
       run: |
