@@ -1,4 +1,4 @@
-name: Lienol-openwrt-x64
+name: Build_OP_x86_64_Lienol-openwrt
 
 on:
   push:
