@@ -1,4 +1,4 @@
-name: Build_x86_64_HelloWorld
+name: Build_x86_64_lean-Lienol
 
 on:
   push:
@@ -79,9 +79,9 @@ jobs:
         ./scripts/feeds install -a
         ./scripts/feeds install -a
         
-    - name: Configuration Customization - Build_x86_64_HelloWorld
+    - name: Configuration Customization - Build_x86_64_lean-Lienol
       env:
-        CONFIG_FILE: 'x86_64_HelloWorld.config'
+        CONFIG_FILE: 'x86_64_lean-Lienol.config'
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x ./customize.sh && ./customize.sh
@@ -111,5 +111,5 @@ jobs:
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
-        name: OpenWrt_x86_64_HelloWorld
+        name: OpenWrt_x86_64_lean-Lienol
         path: ./artifact/
