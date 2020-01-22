@@ -1,4 +1,4 @@
-name: Build_x86_64_Lienol-openwrt
+name: Lienol-openwrt-x64
 
 on:
   push:
@@ -36,8 +36,9 @@ jobs:
         cd Extra-plugin
         git clone https://github.com/Leo-Jo/luci-app-koolproxyR
         git clone https://github.com/destan19/OpenAppFilter
-        git clone https://github.com/jerrykuku/luci-theme-argon
         git clone https://github.com/rosywrt/luci-theme-rosy
+        git clone https://github.com/jerrykuku/luci-theme-argon
+        
         
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
@@ -81,5 +82,5 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@master
       with:
-        name: Lienol-openwrt_x64
+        name: Lienol-openwrt-x64
         path: ./artifact/
