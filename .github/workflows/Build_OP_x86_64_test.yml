@@ -1,4 +1,4 @@
-name: Build_x86_64_aa
+name: Build_x86_64_test
 
 on:
   push:
@@ -75,9 +75,10 @@ jobs:
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         ./scripts/feeds install -a
-    - name: Configuration Customization - Build_x86_64_wjq
+        
+    - name: Configuration Customization - Build_x86_64_test
       env:
-        CONFIG_FILE: 'x86_64_aa.config'
+        CONFIG_FILE: 'x86_64_test.config'
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x ./customize.sh && ./customize.sh
@@ -107,5 +108,5 @@ jobs:
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
-        name: OpenWrt_x86_64_aa
+        name: OpenWrt_x86_64_test
         path: ./artifact/
