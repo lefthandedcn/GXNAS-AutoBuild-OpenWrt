@@ -1,17 +1,22 @@
+#=================================================
+# Description: Build OpenWrt using GitHub Actions
+# Lisence: MIT
+# Author: eSirPlayground
+# Youtube Channel: https://goo.gl/fvkdwm 
+#=================================================
+
 name: Build_x86_64_test
 
-on:
-  push:
-    branches: 
-      - master
-  #schedule:
-  #  - cron: 0 20 * * *
- 
+on: 
   release:
     types: [published]
 
-  #schedule:
-  #  - cron: 0 8 * * 5
+  #push:
+  #  branches: 
+  #    - master
+
+  schedule:
+    - cron: 0 20 * * *
   
   #watch:
   #  types: [started]
@@ -48,27 +53,16 @@ jobs:
           mysql* \
           php*
         sudo -E apt-get update
-        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex node-uglify gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx-ucl libelf-dev autoconf automake libtool autopoint device-tree-compiler libuv-dev
+        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3.5 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
+        
     - name: Clone source code
       env: 
         REPO_URL: https://github.com/coolsnowwolf/lede
         REPO_BRANCH: master
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
 
-    - name: DIY packages
-      working-directory: ./openwrt
-      run: |
-        cd package
-        mkdir openwrt-packages
-        cd openwrt-packages
-        git clone https://github.com/lulinlin520/softvpn
-        git clone https://github.com/destan19/OpenAppFilter
-        git clone https://github.com/rosywrt/luci-theme-rosy
-        git clone https://github.com/jerrykuku/luci-theme-argon
-        git clone https://github.com/Leo-Jo-My/luci-theme-opentomcat
-        git clone https://github.com/Leo-Jo-My/luci-theme-opentomato
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
@@ -76,6 +70,12 @@ jobs:
         ./scripts/feeds install -a
         ./scripts/feeds install -a
         
+    #- name: Import external feeds
+    #  working-directory: ./openwrt
+    #  run: |
+    #    git clone https://github.com/Lienol/openwrt-package package/lienol
+    #    git clone "your_github_link" package/"your_folder_name"      
+
     - name: Configuration Customization - Build_x86_64_test
       env:
         CONFIG_FILE: 'x86_64_test.config'
@@ -97,16 +97,8 @@ jobs:
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
         
-    - name: Assemble artifact
-      run: |
-          rm -rf ./artifact/
-          mkdir -p ./artifact/
-          find openwrt/bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./artifact/
-          find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
-          find openwrt/bin/targets/ -name "*combined*vmdk*" | xargs -i mv -f {} ./artifact/
-          
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
         name: OpenWrt_x86_64_test
-        path: ./artifact/
+        path: openwrt/bin
