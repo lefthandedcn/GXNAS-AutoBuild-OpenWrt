@@ -1,6 +1,6 @@
 name: Build_x86_64_wjq
 
-#on:
+on:
 #  push:
 #    branches: 
 #      - master
@@ -95,16 +95,16 @@ jobs:
       working-directory: ./openwrt
       run: |
         echo -e "$(nproc) thread build."
-#        make -j$(nproc) V=s
-        make -j1 V=s
+        make -j$(nproc) V=s
+#        make -j1 V=s
         
-#    - name: Assemble artifact
-#      run: |
-#          rm -rf ./artifact/
-#          mkdir -p ./artifact/
-#          find openwrt/bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./artifact/
-#          find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
-#          find openwrt/bin/targets/ -name "*combined*vmdk*" | xargs -i mv -f {} ./artifact/
+    - name: Assemble artifact
+      run: |
+          rm -rf ./artifact/
+          mkdir -p ./artifact/
+          find openwrt/bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./artifact/
+          find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
+          find openwrt/bin/targets/ -name "*combined*vmdk*" | xargs -i mv -f {} ./artifact/
           
     - name : Upload artifact
       uses: actions/upload-artifact@master
