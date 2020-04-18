@@ -8,18 +8,11 @@
 name: Build_x86_64_test
 
 on: 
-  release:
-    types: [published]
-
   push:
     branches: 
       - master
-
   schedule:
     - cron: 0 20 * * *
-  
-  #watch:
-  #  types: [started]
 
 jobs:
   build:
