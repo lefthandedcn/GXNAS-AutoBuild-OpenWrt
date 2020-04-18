@@ -1,11 +1,11 @@
 name: Build_x86_64_wjq
 
-on:
-  push:
-    branches: 
-      - master
-  schedule:
-    - cron: 0 20 * * *
+#on:
+#  push:
+#    branches: 
+#      - master
+#  schedule:
+#    - cron: 0 20 * * *
  
 jobs:
   build:
