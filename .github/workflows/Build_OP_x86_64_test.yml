@@ -105,11 +105,11 @@ jobs:
   
     - name: Assemble artifact
       run: |
-          rm -rf ./artifact/
-          mkdir -p ./artifact/
-          find openwrt/bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./artifact/
-          find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
-          find openwrt/bin/targets/ -name "*combined*vmdk*" | xargs -i mv -f {} ./artifact/
+        rm -rf ./artifact/
+        mkdir -p ./artifact/
+        find openwrt/bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./artifact/
+        find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
+        find openwrt/bin/targets/ -name "*combined*vmdk*" | xargs -i mv -f {} ./artifact/
 
     - name : Upload artifact
       uses: actions/upload-artifact@master
