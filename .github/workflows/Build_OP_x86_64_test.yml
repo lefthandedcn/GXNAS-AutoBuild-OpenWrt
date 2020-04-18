@@ -63,6 +63,19 @@ jobs:
         REPO_BRANCH: master
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
 
+    - name: DIY packages
+      working-directory: ./openwrt
+      run: |
+        cd package
+        mkdir openwrt-packages
+        cd openwrt-packages
+        git clone https://github.com/destan19/OpenAppFilter
+        git clone https://github.com/rosywrt/luci-theme-rosy
+        git clone https://github.com/jerrykuku/luci-theme-argon
+        git clone https://github.com/Leo-Jo-My/luci-theme-opentomcat
+        git clone https://github.com/Leo-Jo-My/luci-theme-opentomato
+
+
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
@@ -96,7 +109,15 @@ jobs:
       run: |
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
-        
+  
+      - name: Assemble artifact
+      run: |
+          rm -rf ./artifact/
+          mkdir -p ./artifact/
+          find openwrt/bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./artifact/
+          find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
+          find openwrt/bin/targets/ -name "*combined*vmdk*" | xargs -i mv -f {} ./artifact/
+
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
