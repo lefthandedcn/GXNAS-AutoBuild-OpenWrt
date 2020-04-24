@@ -62,6 +62,7 @@ jobs:
         cd package
         mkdir openwrt-packages
         cd openwrt-packages
+        git clone https://github.com/fw876/helloworld package/luci-app-ssr-plus
         git clone https://github.com/destan19/OpenAppFilter
         git clone https://github.com/rosywrt/luci-theme-rosy
         git clone https://github.com/jerrykuku/luci-theme-argon
