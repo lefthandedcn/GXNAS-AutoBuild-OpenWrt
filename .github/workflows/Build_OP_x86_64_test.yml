@@ -84,15 +84,10 @@ jobs:
         git clone https://github.com/rufengsuixing/luci-app-adguardhome.git
         mv luci-app-adguardhome/ ./lean
         git clone https://github.com/destan19/OpenAppFilter.git
-        mv OpenAppFilter/ ./lean
         git clone https://github.com/rosywrt/luci-theme-rosy.git
-        mv luci-theme-rosy/ ./lean
         git clone https://github.com/jerrykuku/luci-theme-argon.git
-        mv luci-theme-argon/ ./lean
         git clone https://github.com/Leo-Jo-My/luci-theme-opentomcat.git
-        mv luci-theme-opentomcat/ ./lean
         git clone https://github.com/Leo-Jo-My/luci-theme-opentomato.git
-        mv luci-theme-opentomato/ ./lean
         
     - name: Configuration Customization - Build_x86_64_test.config
       env:
