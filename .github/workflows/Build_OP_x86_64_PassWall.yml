@@ -1,0 +1,132 @@
+name: Build_OP_x86_64_PassWall
+
+on: 
+  release:
+    types: [published]
+
+  push:
+    branches: 
+      - master
+    paths:
+      - '.github/workflows/Build_OP_x86_64_PassWall.yml'
+
+  #schedule:
+  #  - cron: 0 20 * * *
+  
+  watch:
+    types: [started]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        docker rmi `docker images -q`
+        echo "Deleting files, please wait ..."
+        sudo rm -rf \
+          /usr/share/dotnet \
+          /etc/mysql \
+          /etc/php
+        sudo -E apt-get -y purge \
+          azure-cli \
+          ghc* \
+          zulu* \
+          hhvm \
+          llvm* \
+          firefox \
+          google* \
+          dotnet* \
+          powershell \
+          openjdk* \
+          mysql* \
+          php*
+        sudo -E apt-get update
+        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3.5 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf
+        sudo -E apt-get -y autoremove --purge
+        sudo -E apt-get clean
+        
+    - name: Clone source code
+      env: 
+        REPO_URL: https://github.com/coolsnowwolf/lede
+        REPO_BRANCH: master
+      run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+
+    - name: Update & Install feeds
+      working-directory: ./openwrt
+      run: |
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        
+    - name: Import external feeds
+      working-directory: ./openwrt
+      run: |
+        cd package
+        git clone https://github.com/Lienol/openwrt-package.git
+        git clone https://github.com/ywt114/Lienol.git
+        mv Lienol/luci-app-passwall/ ./lean
+        rm -rf Lienol/
+        git clone https://github.com/vernesong/OpenClash.git
+        mv OpenClash/luci-app-openclash/ ./lean
+        rm -rf OpenClash/
+        git clone https://github.com/fw876/helloworld.git
+        mv helloworld/luci-app-ssr-plus/ ./lean
+        rm -rf helloworld/
+        git clone https://github.com/songchenwen/nanopi-r2s.git
+        mv nanopi-r2s/luci-app-r2sflasher/ ./lean
+        rm -rf nanopi-r2s/
+        git clone https://github.com/rufengsuixing/luci-app-adguardhome.git
+        mv luci-app-adguardhome/ ./lean
+        git clone https://github.com/destan19/OpenAppFilter.git
+        git clone https://github.com/rosywrt/luci-theme-rosy.git
+        git clone https://github.com/jerrykuku/luci-theme-argon.git
+        git clone https://github.com/Leo-Jo-My/luci-theme-opentomcat.git
+        git clone https://github.com/Leo-Jo-My/luci-theme-opentomato.git
+        
+    - name: Configuration Customization - x86_64_PassWall.config
+      env:
+        CONFIG_FILE: 'x86_64_PassWall.config'
+      run: |
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        chmod +x ./customize.sh && ./customize.sh
+        cd openwrt && make defconfig
+    
+    - name: Download package
+      working-directory: ./openwrt
+      run: |
+        make download -j$(nproc)
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+        
+    - name: Build firmware
+      working-directory: ./openwrt
+      run: |
+        echo -e "$(nproc) thread build."
+        make -j$(nproc) V=s
+        
+    - name: Zip Files
+      run: |
+        gzip ./openwrt/bin/targets/x86/64/openwrt-x86-64-combined-squashfs.img
+    
+    - name: Assemble Artifact
+      id: assemble_artifact
+      run: |
+        rm -rf ./artifact/
+        mkdir -p ./artifact/
+        cp ./openwrt/bin/targets/x86/64/openwrt-x86-64-combined-squashfs.img* ./artifact/
+        cp ./openwrt/.config ./artifact/
+        zip -r artifact.zip ./artifact/
+        release_tag="Openwrt-X86-64-$(date +%Y-%m-%d)"
+        echo "##[set-output name=release_tag;]$release_tag"
+    
+    - name: Upload Artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: Build_OP_x86_64_PassWall
+        path: ./artifact/
