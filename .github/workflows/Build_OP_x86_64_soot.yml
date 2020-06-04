@@ -15,7 +15,7 @@ on:
   
   watch:
     types: [started]
-
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -68,28 +68,14 @@ jobs:
       working-directory: ./openwrt
       run: |
         cd package
-        git clone https://github.com/Lienol/openwrt-package.git
-        git clone https://github.com/ywt114/Lienol.git
-        mv Lienol/luci-app-passwall/ ./lean
-        rm -rf Lienol/
-        git clone https://github.com/vernesong/OpenClash.git
-        mv OpenClash/luci-app-openclash/ ./lean
-        rm -rf OpenClash/
+        # git clone https://github.com/kenzok8/openwrt-packages.git
         git clone https://github.com/fw876/helloworld.git
-        mv helloworld/luci-app-ssr-plus/ ./lean
-        rm -rf helloworld/
-        git clone https://github.com/songchenwen/nanopi-r2s.git
-        mv nanopi-r2s/luci-app-r2sflasher/ ./lean
-        rm -rf nanopi-r2s/
-        git clone https://github.com/rufengsuixing/luci-app-adguardhome.git
-        mv luci-app-adguardhome/ ./lean
         git clone https://github.com/destan19/OpenAppFilter.git
-        git clone https://github.com/rosywrt/luci-theme-rosy.git
-        git clone https://github.com/jerrykuku/luci-theme-argon.git
-        git clone https://github.com/Leo-Jo-My/luci-theme-opentomcat.git
-        git clone https://github.com/Leo-Jo-My/luci-theme-opentomato.git
+        git clone https://github.com/Leo-Jo-My/luci-theme-opentomcat
+        git clone https://github.com/Leo-Jo-My/luci-theme-opentomato
+
         
-    - name: Configuration Customization - x86_64_soot.config
+    - name: Configuration Customization - Build_x86_64_soot.config
       env:
         CONFIG_FILE: 'x86_64_soot.config'
       run: |
