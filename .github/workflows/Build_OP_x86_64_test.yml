@@ -71,6 +71,8 @@ jobs:
         # git clone https://github.com/kenzok8/openwrt-packages.git
         git clone https://github.com/fw876/helloworld.git
         git clone https://github.com/destan19/OpenAppFilter.git
+        git clone https://github.com/Leo-Jo-My/luci-theme-opentomcat
+        git clone https://github.com/Leo-Jo-My/luci-theme-opentomato
 
         
     - name: Configuration Customization - Build_x86_64_test.config
