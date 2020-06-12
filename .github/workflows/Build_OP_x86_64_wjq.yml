@@ -1,12 +1,28 @@
-name: Build_x86_64_wjq
-
-on:
+#  on:
 #  push:
 #    branches: 
 #      - master
 #  schedule:
 #    - cron: 0 20 * * *
  
+name: Build_x86_64_wjq
+
+on: 
+  release:
+    types: [published]
+
+  push:
+    branches: 
+      - master
+    paths:
+      - '.github/workflows/Build_OP_x86_64_wjq.yml'
+
+  #schedule:
+  #  - cron: 0 20 * * *
+  
+  watch:
+    types: [started]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -39,7 +55,7 @@ jobs:
           mysql* \
           php*
         sudo -E apt-get update
-        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex node-uglify gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx-ucl libelf-dev autoconf automake libtool autopoint device-tree-compiler libuv-dev
+        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3.5 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
         
@@ -49,41 +65,30 @@ jobs:
         REPO_BRANCH: master
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
 
-    - name: DIY packages
-      working-directory: ./openwrt
-      run: |
-        cd package
-        mkdir openwrt-packages
-        cd openwrt-packages
-        # git clone https://github.com/Ameykyl/luci-app-koolproxyr
-        # git clone https://github.com/openwrt-develop/luci-theme-atmaterial
-        # git clone https://github.com/Aslin-Ameng/luci-theme-light
-        # git clone https://github.com/tty228/luci-app-serverchan
-        # git clone https://github.com/happyzhang1995/openwrt-adguardhome
-        # git clone https://github.com/happyzhang1995/luci-app-adguardhome
-        # git clone https://github.com/rufengsuixing/luci-app-adguardhome
-        # git clone https://github.com/kuoruan/openwrt-frp
-        git clone https://github.com/destan19/OpenAppFilter
-        git clone https://github.com/rosywrt/luci-theme-rosy
-        git clone https://github.com/jerrykuku/luci-theme-argon
-        git clone https://github.com/Leo-Jo-My/luci-theme-opentomcat
-        git clone https://github.com/Leo-Jo-My/luci-theme-opentomato
-
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-        ./scripts/feeds install -a
         
-    - name: Configuration Customization - Build_x86_64_wjq
+    - name: Import external feeds
+      working-directory: ./openwrt
+      run: |
+        cd package
+        # git clone https://github.com/kenzok8/openwrt-packages.git
+        git clone https://github.com/fw876/helloworld.git
+        git clone https://github.com/destan19/OpenAppFilter.git
+        git clone https://github.com/Leo-Jo-My/luci-theme-opentomcat
+        git clone https://github.com/Leo-Jo-My/luci-theme-opentomato
+        
+    - name: Configuration Customization - Build_x86_64_wjq.config
       env:
         CONFIG_FILE: 'x86_64_wjq.config'
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x ./customize.sh && ./customize.sh
         cd openwrt && make defconfig
-        
+    
     - name: Download package
       working-directory: ./openwrt
       run: |
@@ -96,18 +101,24 @@ jobs:
       run: |
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
-#        make -j1 V=s
         
-    - name: Assemble artifact
+    - name: Zip Files
       run: |
-          rm -rf ./artifact/
-          mkdir -p ./artifact/
-          find openwrt/bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./artifact/
-          find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
-          find openwrt/bin/targets/ -name "*combined*vmdk*" | xargs -i mv -f {} ./artifact/
-          
-    - name : Upload artifact
+        gzip ./openwrt/bin/targets/x86/64/openwrt-x86-64-combined-squashfs.img
+    
+    - name: Assemble Artifact
+      id: assemble_artifact
+      run: |
+        rm -rf ./artifact/
+        mkdir -p ./artifact/
+        cp ./openwrt/bin/targets/x86/64/openwrt-x86-64-combined-squashfs.img* ./artifact/
+        cp ./openwrt/.config ./artifact/
+        zip -r artifact.zip ./artifact/
+        release_tag="Openwrt-X86-64-$(date +%Y-%m-%d)"
+        echo "##[set-output name=release_tag;]$release_tag"
+    
+    - name: Upload Artifact
       uses: actions/upload-artifact@master
       with:
-        name: OpenWrt_x86_64_wjq
+        name: Build_OP_x86_64_wjq
         path: ./artifact/
