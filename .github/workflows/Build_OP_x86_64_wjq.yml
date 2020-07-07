@@ -95,8 +95,15 @@ jobs:
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
     
+    - name: Assemble artifact
+      run: |
+          rm -rf ./artifact/
+          mkdir -p ./artifact/
+          find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
+    
     - name: Upload Artifact
       uses: actions/upload-artifact@master
       with:
         name: Build_OP_x86_64_wjq
-        path: openwrt/bin
+        # path: openwrt/bin
+        path: ./artifact/
