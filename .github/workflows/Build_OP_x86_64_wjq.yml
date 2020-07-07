@@ -99,4 +99,4 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: Build_OP_x86_64_wjq
-        path: ./artifact/
+        path: openwrt/bin
