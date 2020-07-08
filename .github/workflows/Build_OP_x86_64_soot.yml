@@ -95,20 +95,11 @@ jobs:
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
         
-    - name: Zip Files
+    - name: Assemble artifact
       run: |
-        gzip ./openwrt/bin/targets/x86/64/openwrt-x86-64-combined-squashfs.img
-    
-    - name: Assemble Artifact
-      id: assemble_artifact
-      run: |
-        rm -rf ./artifact/
-        mkdir -p ./artifact/
-        cp ./openwrt/bin/targets/x86/64/openwrt-x86-64-combined-squashfs.img* ./artifact/
-        cp ./openwrt/.config ./artifact/
-        zip -r artifact.zip ./artifact/
-        release_tag="Openwrt-X86-64-$(date +%Y-%m-%d)"
-        echo "##[set-output name=release_tag;]$release_tag"
+          rm -rf ./artifact/
+          mkdir -p ./artifact/
+          find openwrt/bin/targets/ -name "openwrt-x86-64-generic-squashfs-combined.img" | xargs -i mv -f {} ./artifact/
     
     - name: Upload Artifact
       uses: actions/upload-artifact@master
