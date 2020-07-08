@@ -99,7 +99,7 @@ jobs:
       run: |
           rm -rf ./artifact/
           mkdir -p ./artifact/
-          find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
+          find openwrt/bin/targets/ -name "openwrt-x86-64-generic-squashfs-combined.img" | xargs -i mv -f {} ./artifact/
     
     - name: Upload Artifact
       uses: actions/upload-artifact@master
