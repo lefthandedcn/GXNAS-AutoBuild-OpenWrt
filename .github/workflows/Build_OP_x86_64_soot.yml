@@ -94,15 +94,18 @@ jobs:
       run: |
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
-        
-    - name: Assemble artifact
+     
+    - name: Prepare artifact
       run: |
-          rm -rf ./artifact/
-          mkdir -p ./artifact/
-          find openwrt/bin/targets/ -name "openwrt-x86-64-generic-squashfs-combined.img" | xargs -i mv -f {} ./artifact/
+        find  ./openwrt/bin/targets/ -type f -name "*rootfs*" | xargs rm -rf {}
+        cd ./openwrt/bin/targets/x86/64
+        rm -rf `ls | grep -v "openwrt-x86-64-generic-squashfs-combined.img"`
+        # gzip -d *.gz
+        gzip *.img
+        df -h
     
-    - name: Upload Artifact
+    - name: Upload firmware
       uses: actions/upload-artifact@master
       with:
-        name: Build_OP_x86_64_soot
-        path: ./artifact/
+        name: Build_x86_64_soot
+        path: ./openwrt/bin/targets/
