@@ -72,6 +72,7 @@ jobs:
         git clone https://github.com/kenzok8/openwrt-packages.git
         git clone https://github.com/siropboy/mypackages.git
         git clone https://github.com/fw876/helloworld.git
+        git clone https://github.com/superstarfly/OpenClash.git
         git clone https://github.com/frainzy1477/luci-app-clash.git
         git clone https://github.com/tty228/luci-app-serverchan.git
         git clone https://github.com/destan19/OpenAppFilter.git
