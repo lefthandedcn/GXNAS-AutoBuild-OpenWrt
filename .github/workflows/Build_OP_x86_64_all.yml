@@ -114,5 +114,5 @@ jobs:
     - name: Upload firmware
       uses: actions/upload-artifact@master
       with:
-        name: Build_x86_64_all
+        name: OpenWrt_x86_64_all
         path: ./openwrt/bin/targets/
