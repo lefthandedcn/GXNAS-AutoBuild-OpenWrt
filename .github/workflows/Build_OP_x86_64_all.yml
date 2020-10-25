@@ -70,7 +70,7 @@ jobs:
         cd package
         git clone https://github.com/kenzok8/small.git
         git clone https://github.com/kenzok8/openwrt-packages.git
-        git clone https://github.com/siropboy/mypackages.git
+        #git clone https://github.com/siropboy/mypackages.git
         git clone https://github.com/fw876/helloworld.git
         git clone https://github.com/superstarfly/OpenClash.git
         git clone https://github.com/frainzy1477/luci-app-clash.git
