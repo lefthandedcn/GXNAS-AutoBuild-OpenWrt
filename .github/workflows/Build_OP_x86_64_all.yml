@@ -78,8 +78,8 @@ jobs:
         git clone https://github.com/destan19/OpenAppFilter.git
         git clone https://github.com/jerrykuku/node-request.git
         git clone https://github.com/jerrykuku/luci-app-jd-dailybonus.git
-        git clone https://github.com/Leo-Jo-My/luci-theme-opentomcat
-        git clone https://github.com/Leo-Jo-My/luci-theme-opentomato
+        git clone https://github.com/Leo-Jo-My/luci-theme-opentomcat.git
+        git clone https://github.com/Leo-Jo-My/luci-theme-opentomato.git
         
     - name: Configuration Customization - Build_x86_64_all.config
       env:
