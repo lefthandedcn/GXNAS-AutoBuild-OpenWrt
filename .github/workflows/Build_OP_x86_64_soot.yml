@@ -15,7 +15,15 @@ on:
   
   watch:
     types: [started]
-    
+
+env:
+  UPLOAD_NAS: true
+  TargetPath: ./openwrt/bin/targets/
+  ftp_port: ${{ secrets.FTP_PORT }}
+  ftp_username: ${{ secrets.FTP_USERNAME }}
+  ftp_psw: ${{ secrets.FTP_PSW }}
+  ftp_ip: ${{ secrets.FTP_IP }}
+
 jobs:
   build:
     runs-on: Ubuntu-20.04
@@ -109,6 +117,15 @@ jobs:
       with:
         name: Build_x86_64_soot
         path: ./openwrt/bin/targets/
+
+    - name: Upload firmware to GXNAS-DS918
+      id: GXNAS-DS918
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_NAS == 'true' && !cancelled()
+      run: |
+        cd openwrt/bin/targets/*/*
+        echo $ftp_psw > /tmp/rsync.psw && chmod 600 /tmp/rsync.psw
+        rsync -avrzP $ftp_port $upload_file_1 $upload_file_2 $upload_file_3 $ftp_username@$ftp_ip::$TargetPath/ --password-file=/tmp/rsync.psw
+        echo "All Released Files Uploaded to GXNAS-DS918"
 
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
