@@ -18,12 +18,12 @@ on:
 
 env:
   UPLOAD_NAS: true
-  TargetPath: ./openwrt/bin/targets/
+  TargetPath: openwrt
   ftp_port: ${{ secrets.FTP_PORT }}
   ftp_username: ${{ secrets.FTP_USERNAME }}
   ftp_psw: ${{ secrets.FTP_PSW }}
   ftp_ip: ${{ secrets.FTP_IP }}
-
+  upload_file: OpenWrt_x86_64_all.zip
 
 jobs:
   build:
@@ -132,7 +132,7 @@ jobs:
       run: |
         cd openwrt/bin/targets/*/*
         echo $ftp_psw > /tmp/rsync.psw && chmod 600 /tmp/rsync.psw
-        rsync -avrzP $ftp_port $upload_file_1 $upload_file_2 $upload_file_3 $ftp_username@$ftp_ip::$TargetPath/ --password-file=/tmp/rsync.psw
+        rsync -avrzP $ftp_port $upload_file_1 $ftp_username@$ftp_ip::$TargetPath/ --password-file=/tmp/rsync.psw
         echo "All Released Files Uploaded to GXNAS-DS918"
 
     - name: Delete workflow runs
