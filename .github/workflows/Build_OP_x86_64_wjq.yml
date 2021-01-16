@@ -116,3 +116,9 @@ jobs:
       with:
         name: Build_x86_64_wjq
         path: ./openwrt/bin/targets/
+
+    - name: Delete workflow runs
+      uses: GitRML/delete-workflow-runs@main
+      with:
+        retain_days: 30
+        keep_minimum_runs: 4
