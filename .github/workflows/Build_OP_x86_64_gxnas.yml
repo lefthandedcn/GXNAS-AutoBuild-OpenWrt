@@ -23,7 +23,7 @@ env:
   ftp_username: ${{ secrets.FTP_USERNAME }}
   ftp_psw: ${{ secrets.FTP_PSW }}
   ftp_ip: ${{ secrets.FTP_IP }}
-  upload_file_1: Build_x86_64_gxnas.zip
+  upload_file_1: OpenWrt_x86_64_gxnas.zip
 
 
 jobs:
@@ -124,7 +124,7 @@ jobs:
     - name: Upload firmware
       uses: actions/upload-artifact@master
       with:
-        name: Build_x86_64_gxnas
+        name: OpenWrt_x86_64_gxnas
         path: ./openwrt/bin/targets/
 
     - name: Upload firmware to GXNAS-DS918
@@ -132,7 +132,7 @@ jobs:
       run: |
         cd ./openwrt/bin/targets
         echo $ftp_psw > /tmp/rsync.psw && chmod 600 /tmp/rsync.psw
-        rsync -avrzP $ftp_port $upload_file_1 $ftp_username@$ftp_ip::$TargetPath/$(date +"%Y.%m.%d-%H%M")_x86_64_gxnas.zip --password-file=/tmp/rsync.psw
+        rsync -avrzP -e $ftp_port $upload_file_1 $ftp_username@$ftp_ip::$TargetPath/$(date +"%Y.%m.%d-%H%M")_OpenWrt_x86_64_gxnas.zip --password-file=/tmp/rsync.psw
         echo "All Released Files Uploaded to GXNAS-DS918"
 
     - name: Delete workflow runs
