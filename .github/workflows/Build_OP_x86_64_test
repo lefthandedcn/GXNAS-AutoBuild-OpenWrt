@@ -28,10 +28,6 @@ jobs:
   build:
     runs-on: Ubuntu-20.04
 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@master
-
     - name: Upload firmware to GXNAS-DS918
       id: GXNAS-DS918
       run: |
