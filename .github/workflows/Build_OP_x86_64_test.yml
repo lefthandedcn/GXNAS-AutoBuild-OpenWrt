@@ -44,7 +44,7 @@ jobs:
       run: |
         curl -SLO https://raw.githubusercontent.com/LXK9301/jd_scripts/master/docker/crontab_list.sh
         echo $ftp_psw > /tmp/rsync.psw && chmod 600 /tmp/rsync.psw
-        rsync -avrzP -e $ftp_port $upload_file_1 $ftp_username@$ftp_ip::$TargetPath --password-file=/tmp/rsync.psw
+        rsync -avrzP -e $ftp_port /tmp/rsync.psw $ftp_username@$ftp_ip::$TargetPath/ --password-file=/tmp/rsync.psw
         echo "All Released Files Uploaded to GXNAS-DS918"
     
     - name: Delete workflow runs
