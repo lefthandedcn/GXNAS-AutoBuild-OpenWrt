@@ -1,15 +1,18 @@
 name: Build OpenWrt-Test
 
-on:
-  repository_dispatch:
-  workflow_dispatch:
-    inputs:
-      ssh:
-        description: 'SSH connection to Actions'
-        required: false
-        default: 'false'
-#  schedule:
-#    - cron: 0 7 * * 5
+on: 
+  release:
+    types: [published]
+
+  push:
+    branches: 
+      - master
+
+  schedule:
+    - cron: 0 4 * * 6
+  
+  watch:
+    types: [started]
 
 env:
   ftp_port: ${{ secrets.FTP_PORT }}
