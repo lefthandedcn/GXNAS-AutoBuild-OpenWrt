@@ -18,6 +18,16 @@ on:
         description: 'SSH connection to Actions'
         required: false
         default: 'false'
+  
+  release:
+    types: [published]
+
+  push:
+    branches: 
+      - master
+    paths:
+      - '.github/workflows/UploadToNAS.yml'
+
   schedule:
     - cron: 0 7 * * 5
 
