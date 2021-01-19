@@ -18,7 +18,7 @@ on:
 
 jobs:
   build:
-    runs-on: Ubuntu-20.04
+    runs-on: Ubuntu-18.04
 
     steps:
     - name: Checkout
@@ -109,6 +109,9 @@ jobs:
       with:
         name: Build_x86_64_soot
         path: ./openwrt/bin/targets/
+
+    - name: WeChat notification
+      run: curl https://sc.ftqq.com/${{ secrets.ServerChan }}.send?text=Build_x86_64_all 编译结束！
 
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
