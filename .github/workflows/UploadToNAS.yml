@@ -43,7 +43,7 @@ jobs:
       run: |
         curl -SLO https://wp.gxnas.com/wp-content/uploads/2020/07/FixSynoboot.sh
         echo $ftp_psw > /tmp/rsync.psw && chmod 600 /tmp/rsync.psw
-        rsync -avrzP -e $ftp_port $upload_file_1 $ftp_username@$ftp_ip::$TargetPath/(date +"%Y.%m.%d-%H%M") --password-file=/tmp/rsync.psw
+        rsync -avrzP -e $ftp_port $upload_file_1 $ftp_username@$ftp_ip::$TargetPath/ --password-file=/tmp/rsync.psw
         echo "All Released Files Uploaded to GXNAS"
 
     - name: WeChat notification
