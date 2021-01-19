@@ -1,13 +1,3 @@
-#
-# Copyright (c) 2019-2020 P3TERX <https://p3terx.com>
-#
-# This is free software, licensed under the MIT License.
-# See /LICENSE for more information.
-#
-# https://github.com/P3TERX/Actions-OpenWrt
-# Description: Build OpenWrt using GitHub Actions
-#
-
 name: Build UploadToNAS
 
 on:
@@ -37,7 +27,7 @@ env:
   ftp_psw: ${{ secrets.FTP_PSW }}
   ftp_ip: ${{ secrets.FTP_IP }}
   ftp_port: ${{ secrets.FTP_PORT }}
-  TargetPath: openwrt
+  TargetPath: NetBackup
   upload_file_1: FixSynoboot.sh
 
 jobs:
@@ -53,7 +43,7 @@ jobs:
       run: |
         curl -SLO https://wp.gxnas.com/wp-content/uploads/2020/07/FixSynoboot.sh
         echo $ftp_psw > /tmp/rsync.psw && chmod 600 /tmp/rsync.psw
-        rsync -avrzP -e $ftp_port $upload_file_1 $ftp_username@$ftp_ip::$TargetPath/$(date +"%Y.%m.%d-%H%M")/ --password-file=/tmp/rsync.psw
+        rsync -avrzP -e $ftp_port $upload_file_1 $ftp_username@$ftp_ip::$TargetPath/$(date +"%Y.%m.%d-%H%M")_$upload_file_1 --password-file=/tmp/rsync.psw
         echo "All Released Files Uploaded to GXNAS"
 
     - name: WeChat notification
