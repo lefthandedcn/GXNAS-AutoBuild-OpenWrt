@@ -118,7 +118,7 @@ jobs:
         path: ./openwrt/bin/targets/
 
     - name: WeChat notification
-      run: curl https://sc.ftqq.com/${{ secrets.ServerChan }}.send?text=Build_x86_64_all 编译结束！
+      run: curl https://sc.ftqq.com/${{ secrets.ServerChan }}.send?text=Build_x86_64_wjq 编译结束！
 
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
