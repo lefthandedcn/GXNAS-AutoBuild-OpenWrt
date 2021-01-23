@@ -117,9 +117,6 @@ jobs:
         name: OpenWrt_x86_64_gxnas
         path: ./openwrt/bin/targets/
 
-    - name: WeChat notification
-      run: curl https://sc.ftqq.com/${{ secrets.ServerChan }}.send?text=Build_x86_64_gxnas 编译结束！
-
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
       with:
